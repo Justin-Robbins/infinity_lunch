@@ -366,14 +366,8 @@
       btn.blur();
     });
 
-    if (typeof google !== 'undefined' && google.script) {
-      google.script.run
-        .withSuccessHandler(() => { busy = false; })
-        .withFailureHandler(() => { busy = false; })
-        .logRating(rating);
-    } else {
-      setTimeout(() => { busy = false; }, 1600);
-    }
+    fetch("https://script.google.com/macros/s/AKfycbzmtH6CpaCS-x3Doyx9IkJzaYFkvMDZbXr5H1x0xL_ISvFNrnpDVKeg6d1e3767rnirVw/exec?rating=" + rating)
+      .finally(() => { busy = false; });
 
     showBurst(rating);
 
