@@ -467,6 +467,21 @@
   function clamp(min, val, max) {
     return Math.min(Math.max(val, min), max);
   }
+
+  async function keepAwake() {
+    try {
+      await navigator.wakeLock.request('screen');
+    } catch (e) {
+      // silently fail if not supported
+    }
+  }
+
+  keepAwake();
+
+  // Wake lock releases when app goes to background, so re-acquire when it comes back
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') keepAwake();
+  });
 </script>
 
 </body>
